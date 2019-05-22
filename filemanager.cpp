@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QFileDialog>
 
 FileManager::FileManager()
 {
@@ -28,3 +29,12 @@ void FileManager::save(const QString &text){
     stream <<text;
     file.close();
 }
+void FileManager::create_new(const QString &text){
+    filepath = QFileDialog::getSaveFileName();
+    QFile file(filepath);
+    file.open(QIODevice::WriteOnly | QFile::Text);
+    QTextStream stream(&file);
+    stream<<text;
+    file.close();
+}
+

@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include "filemanager.h"
-#include "text.h"
+#include "font.h"
+#include "highlighter.h"
+#include <QShortcut>
 
 namespace Ui {
 class MainWindow;
@@ -16,26 +18,36 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //Ui::MainWindow *ui;
 
 private slots:
-    void on_Open_clicked();
+    void open_file();
 
-    void on_Save_clicked();
+    void save_file();
 
-    void on_Font_clicked();
+    void change_size_font();
 
-    void on_Color_clicked();
+    void change_color_font();
 
-    void on_fontComboBox_currentFontChanged(const QFont &f);
+    void change_font(const QFont &f);
 
     void on_actionC_triggered();
 
-    void on_backGround_clicked();
+    void change_bgcolor();
+
+    void change_codec(const QString &codec);
+
+    void create_file();
 
 private:
     Ui::MainWindow *ui;
     FileManager* filem;
-    TextHilight* mytext;
+    Font* myfont;
+    Highlighter* highlighter;
+    QShortcut *keyCtrlO;
+    QShortcut *keyCtrlS;
+    QShortcut *keyCtrlM;
+
 };
 
 #endif // MAINWINDOW_H

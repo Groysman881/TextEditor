@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
+#include <QAction>
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
@@ -13,7 +14,8 @@
 #include <QColorDialog>
 #include <QFontDialog>
 #include <QTextCursor>
-#include "text.h"
+#include <QTextCodec>
+#include "font.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -21,15 +23,35 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     filem = new FileManager;
-    mytext = new TextHilight;
+    myfont = new Font;
     ui->setupUi(this);
-
+    ui->CodecBox->addItem("UTF-32");
+    ui->CodecBox->addItem("UTF-8");
+    keyCtrlO = new QShortcut(this);
+    keyCtrlO->setKey(Qt::CTRL + Qt::Key_O);
+    connect(keyCtrlO,SIGNAL(activated()),this,SLOT(open_file()));
+    keyCtrlS = new QShortcut(this);
+    keyCtrlS->setKey(Qt::CTRL + Qt::Key_S);
+    connect(keyCtrlS,SIGNAL(activated()),this,SLOT(save_file()));
+    keyCtrlM = new QShortcut(this);
+    keyCtrlM->setKey(Qt::CTRL + Qt::Key_M);
+    connect(keyCtrlM,SIGNAL(activated()),this,SLOT(create_file()));
+    connect(ui->Open,SIGNAL(released()),this,SLOT(open_file()));
+    connect(ui->Save,SIGNAL(released()),this,SLOT(save_file()));
+    connect(ui->Create,SIGNAL(released()),this,SLOT(create_file()));
+    connect(ui->backGround,SIGNAL(released()),this,SLOT(change_bgcolor()));
+    connect(ui->fontComboBox,SIGNAL(currentFontChanged(QFont)),this,SLOT(change_font(QFont)));
+    connect(ui->Font,SIGNAL(released()),this,SLOT(change_size_font()));
+    connect(ui->Color,SIGNAL(released()),this,SLOT(change_color_font()));
+    connect(ui->CodecBox,SIGNAL(currentTextChanged(QString)),this,SLOT(change_codec(QString)));
 }
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete(filem);
+    delete(myfont);
 }
-void MainWindow::on_Open_clicked()
+void MainWindow::open_file()
 {
   QString fpath = QFileDialog::getOpenFileName(this,tr("Open File"),"/","All files (*.*)");
   filem->setPath(fpath);
@@ -41,133 +63,54 @@ void MainWindow::on_Open_clicked()
   }
 
   ui->TextEdit->setPlainText(text);
-
-
-
 }
 
 
-void MainWindow::on_Save_clicked()
+void MainWindow::save_file()
 {
     filem->save(ui->TextEdit->toPlainText());
 }
 
 
-
-
-
-
-void MainWindow::on_Font_clicked()
+void MainWindow::change_size_font()
 {
     bool ok;
     QString str = ui->lineEdit->text();
     int size = str.toInt(&ok,10);
-
-    QTextCursor cursor(ui->TextEdit->textCursor());
-    QString select_text = cursor.selectedText();
-    if(select_text.isEmpty()){
-        ui->TextEdit->selectAll();
-        ui->TextEdit->setFontPointSize(size);
-    }
-    else{
-        ui->TextEdit->selectionChanged();
-        ui->TextEdit->setFontPointSize(size);
-    }
-
+    myfont->change_size_of_font(ui->TextEdit,size);
 }
 
-void MainWindow::on_Color_clicked()
+void MainWindow::change_color_font()
 {
     QColor color = QColorDialog::getColor();
-    QTextCursor cursor(ui->TextEdit->textCursor());
-    QString select_text = cursor.selectedText();
-    if(select_text.isEmpty()){
-        ui->TextEdit->selectAll();
-        ui->TextEdit->setTextColor(color);
-    }
-    else{
-        ui->TextEdit->selectionChanged();
-        ui->TextEdit->setTextColor(color);
-    }
+    myfont->change_color_of_font(ui->TextEdit,color);
 
 
 }
 
-void MainWindow::on_fontComboBox_currentFontChanged(const QFont &f)
+void MainWindow::change_font(const QFont &f)
 {
-    QTextCursor cursor(ui->TextEdit->textCursor());
-    QString select_text = cursor.selectedText();
-    if(select_text.isEmpty()){
-        ui->TextEdit->selectAll();
-        ui->TextEdit->setFont(f);
-    }
-    else{
-        ui->TextEdit->selectionChanged();
-        ui->TextEdit->setFont(f);
-    }
-
+    myfont->change_font(ui->TextEdit,f);
 }
 
 void MainWindow::on_actionC_triggered()
 {   
-    ui->TextEdit->moveCursor(QTextCursor::Start);
+    highlighter = new Highlighter(ui->TextEdit->document());
+}
 
+void MainWindow::change_bgcolor()
+{
+    QColor bgcolor = QColorDialog::getColor();
+    myfont->change_background_color(ui->TextEdit,bgcolor);
+}
 
-    QTextCursor cursor(ui->TextEdit->textCursor());
-
-   //     ui->TextEdit->moveCursor(QTextCursor::Start);
-    do{
-
-            //ui->TextEdit->moveCursor(QTextCursor::EndOfWord,QTextCursor::KeepAnchor);
-            //QTextCursor cursor(ui->TextEdit->textCursor());
-            cursor.movePosition(QTextCursor::EndOfWord,QTextCursor::KeepAnchor);
-            ui->TextEdit->setTextCursor(cursor);
-
-            QColor color;
-            //color.setBlue(255);
-
-            if(cursor.selectedText() == "if"){
-                color.setBlue(255);
-                ui->TextEdit->setTextColor(color);   
-            }
-            else if(cursor.selectedText() == "else"){
-                color.setGreen(255);
-                ui->TextEdit->setTextColor(color);
-            }
-            else if(cursor.selectedText() == "#"){
-                //ui->TextEdit->moveCursor(QTextCursor::NextWord,QTextCursor::KeepAnchor);
-                //ui->TextEdit->moveCursor(QTextCursor::EndOfWord,QTextCursor::KeepAnchor);
-                //cursor.movePosition(QTextCursor::NextWord,QTextCursor::KeepAnchor);
-                cursor.movePosition(QTextCursor::EndOfWord,QTextCursor::KeepAnchor);
-                ui->TextEdit->setTextCursor(cursor);
-                //QMessageBox::information(this,"info",cursor.selectedText());
-                if(cursor.selectedText() == "#include" || cursor.selectedText() == "#define"){
-                    color.setBlue(255);
-                    ui->TextEdit->setTextColor(color);
-                }
-            }
-            else if(cursor.selectedText() == "for"){
-                color.setRed(255);
-                ui->TextEdit->setTextColor(color);
-            }
-        }while(cursor.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor));
-            //ui->TextEdit->moveCursor(QTextCursor::NextWord);
-
-
-
+void MainWindow::change_codec(const QString &codec)
+{
+    myfont->change_codec(ui->TextEdit,codec);
 
 }
 
-void MainWindow::on_backGround_clicked()
+void MainWindow::create_file()
 {
-    QColor bgcolor = QColorDialog::getColor();
-    QTextCursor cursor(ui->TextEdit->textCursor());
-    if(cursor.selectedText().isEmpty()){
-        ui->TextEdit->selectAll();
-        ui->TextEdit->setTextBackgroundColor(bgcolor);
-    }
-    else{
-        ui->TextEdit->selectionChanged();
-        ui->TextEdit->setTextBackgroundColor(bgcolor);
-    }
+    filem->create_new(ui->TextEdit->toPlainText());
 }
