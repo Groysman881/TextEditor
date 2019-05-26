@@ -6,148 +6,84 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>666</width>
-    <height>575</height>
+    <width>619</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="Save">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>121</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Сохранить файл </string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Open">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>121</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Открыть файл</string>
-    </property>
-   </widget>
-   <widget class="QFontComboBox" name="fontComboBox">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>10</y>
-      <width>112</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="TextEdit">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>90</y>
-      <width>661</width>
-      <height>441</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>0</y>
-      <width>143</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="Font">
-       <property name="text">
-        <string>Font Size</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="Color">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>40</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="backGround">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>40</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>BackGround</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Create">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>121</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Создать</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="CodecBox">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>10</y>
-      <width>69</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="FontSize">
+        <property name="text">
+         <string>Font Size</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="CodecBox"/>
+      </item>
+      <item>
+       <widget class="QFontComboBox" name="fontComboBox"/>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QTextEdit" name="TextEdit"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>666</width>
+     <width>619</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHighlight">
+   <widget class="QMenu" name="menu">
     <property name="title">
-     <string>Highlight</string>
+     <string>File</string>
     </property>
-    <addaction name="actionC"/>
+    <addaction name="Create"/>
+    <addaction name="Open"/>
+    <addaction name="Save"/>
    </widget>
-   <addaction name="menuHighlight"/>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Color</string>
+    </property>
+    <addaction name="Font"/>
+    <addaction name="Highlight"/>
+    <addaction name="BackGround"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -158,14 +94,39 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionC">
-   <property name="text">
-    <string>C++</string>
-   </property>
-  </action>
   <action name="actionUTF_32">
    <property name="text">
     <string>UTF-32</string>
+   </property>
+  </action>
+  <action name="Create">
+   <property name="text">
+    <string>Create</string>
+   </property>
+  </action>
+  <action name="Open">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="Save">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="Font">
+   <property name="text">
+    <string>Font</string>
+   </property>
+  </action>
+  <action name="Highlight">
+   <property name="text">
+    <string>Highlight</string>
+   </property>
+  </action>
+  <action name="BackGround">
+   <property name="text">
+    <string>BackGround</string>
    </property>
   </action>
  </widget>

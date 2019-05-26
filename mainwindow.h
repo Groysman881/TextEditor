@@ -31,13 +31,13 @@ private slots:
 
     void change_font(const QFont &f);
 
-    void on_actionC_triggered();
-
     void change_bgcolor();
 
     void change_codec(const QString &codec);
 
     void create_file();
+
+    void change_highlight();
 
 private:
     Ui::MainWindow *ui;

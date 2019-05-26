@@ -36,14 +36,15 @@ MainWindow::MainWindow(QWidget *parent) :
     keyCtrlM = new QShortcut(this);
     keyCtrlM->setKey(Qt::CTRL + Qt::Key_M);
     connect(keyCtrlM,SIGNAL(activated()),this,SLOT(create_file()));
-    connect(ui->Open,SIGNAL(released()),this,SLOT(open_file()));
-    connect(ui->Save,SIGNAL(released()),this,SLOT(save_file()));
-    connect(ui->Create,SIGNAL(released()),this,SLOT(create_file()));
-    connect(ui->backGround,SIGNAL(released()),this,SLOT(change_bgcolor()));
+    connect(ui->Open,SIGNAL(triggered()),this,SLOT(open_file()));
+    connect(ui->Save,SIGNAL(triggered()),this,SLOT(save_file()));
+    connect(ui->Create,SIGNAL(triggered()),this,SLOT(create_file()));
+    connect(ui->BackGround,SIGNAL(triggered()),this,SLOT(change_bgcolor()));
     connect(ui->fontComboBox,SIGNAL(currentFontChanged(QFont)),this,SLOT(change_font(QFont)));
-    connect(ui->Font,SIGNAL(released()),this,SLOT(change_size_font()));
-    connect(ui->Color,SIGNAL(released()),this,SLOT(change_color_font()));
+    connect(ui->FontSize,SIGNAL(released()),this,SLOT(change_size_font()));
+    connect(ui->Font,SIGNAL(triggered()),this,SLOT(change_color_font()));
     connect(ui->CodecBox,SIGNAL(currentTextChanged(QString)),this,SLOT(change_codec(QString)));
+    connect(ui->Highlight,SIGNAL(triggered()),this,SLOT(change_highlight()));
 }
 MainWindow::~MainWindow()
 {
@@ -71,7 +72,6 @@ void MainWindow::save_file()
     filem->save(ui->TextEdit->toPlainText());
 }
 
-
 void MainWindow::change_size_font()
 {
     bool ok;
@@ -93,11 +93,6 @@ void MainWindow::change_font(const QFont &f)
     myfont->change_font(ui->TextEdit,f);
 }
 
-void MainWindow::on_actionC_triggered()
-{   
-    highlighter = new Highlighter(ui->TextEdit->document());
-}
-
 void MainWindow::change_bgcolor()
 {
     QColor bgcolor = QColorDialog::getColor();
@@ -113,4 +108,10 @@ void MainWindow::change_codec(const QString &codec)
 void MainWindow::create_file()
 {
     filem->create_new(ui->TextEdit->toPlainText());
+}
+
+void MainWindow::change_highlight()
+{
+    QColor color = QColorDialog::getColor();
+    myfont->change_highlight_color(ui->TextEdit,color);
 }

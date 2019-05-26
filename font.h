@@ -12,6 +12,7 @@ public:
     void change_font(QTextEdit *text,QFont font);;
     void change_background_color(QTextEdit *text,QColor color);
     void change_codec(QTextEdit *text,QString codec);
+    void change_highlight_color(QTextEdit *text,QColor color);
 };
 
 #endif // FONT_H

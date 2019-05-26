@@ -1,5 +1,6 @@
 #include "font.h"
 #include <QTextCodec>
+#include <QPalette>
 
 Font::Font()
 {
@@ -20,15 +21,9 @@ void Font::change_color_of_font(QTextEdit *Text,QColor color){
 }
 
 void Font::change_background_color(QTextEdit *text, QColor color){
-    QTextCursor cursor(text->textCursor());
-    if(cursor.selectedText().isEmpty()){
-        text->selectAll();
-        text->setTextBackgroundColor(color);
-    }
-    else{
-        text->selectionChanged();
-        text->setTextBackgroundColor(color);
-    }
+    QPalette pal = text->palette();
+    pal.setColor(QPalette::Base,color);
+    text->setPalette(pal);
 }
 
 void Font::change_codec(QTextEdit *text,QString codec){
@@ -66,5 +61,17 @@ void Font::change_font(QTextEdit *text,QFont font){
     else{
         text->selectionChanged();
         text->setFont(font);
+    }
+}
+
+void Font::change_highlight_color(QTextEdit *text, QColor color){
+    QTextCursor cursor(text->textCursor());
+    if(cursor.selectedText().isEmpty()){
+        text->selectAll();
+        text->setTextBackgroundColor(color);
+    }
+    else{
+        text->selectionChanged();
+        text->setTextBackgroundColor(color);
     }
 }

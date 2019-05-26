@@ -28,14 +28,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     filemanager.cpp \
-    font.cpp \
-    highlighter.cpp
+    font.cpp
 
 HEADERS += \
         mainwindow.h \
     filemanager.h \
-    font.h \
-    highlighter.h
+    font.h
 
 FORMS += \
         mainwindow.ui
