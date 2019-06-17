@@ -29,7 +29,7 @@ void FileManager::save(const QString &text){
     stream <<text;
     file.close();
 }
-void FileManager::create_new(const QString &text){
+void FileManager::createNew(const QString &text){
     filepath = QFileDialog::getSaveFileName();
     QFile file(filepath);
     file.open(QIODevice::WriteOnly | QFile::Text);

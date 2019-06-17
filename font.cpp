@@ -4,10 +4,9 @@
 
 Font::Font()
 {
-
+    fontSize = 0;
 }
-
-void Font::change_color_of_font(QTextEdit *Text,QColor color){
+void Font::changeColorOfFont(QTextEdit *Text,QColor color){
     QTextCursor cursor(Text->textCursor());
     QString select_text = cursor.selectedText();
     if(select_text.isEmpty()){
@@ -20,13 +19,13 @@ void Font::change_color_of_font(QTextEdit *Text,QColor color){
     }
 }
 
-void Font::change_background_color(QTextEdit *text, QColor color){
+void Font::changeBackgroundColor(QTextEdit *text, QColor color){
     QPalette pal = text->palette();
     pal.setColor(QPalette::Base,color);
     text->setPalette(pal);
 }
 
-void Font::change_codec(QTextEdit *text,QString codec){
+void Font::changeCodec(QTextEdit *text,QString codec){
     QTextCodec *_codec;
     if(codec == "UTF-32"){
         _codec = QTextCodec::codecForName("UTF-32");
@@ -34,14 +33,17 @@ void Font::change_codec(QTextEdit *text,QString codec){
     else if(codec == "UTF-8"){
         _codec = QTextCodec::codecForName("UTF-8");
     }
-    QString prev_text = text->toPlainText();
-    text->setText(_codec->toUnicode(prev_text.toUtf8()));
+    else if(codec == "Windows-1251"){
+        _codec = QTextCodec::codecForName("Windows-1251");
+    }
+    QString prevText = text->toPlainText();
+    text->setText(_codec->toUnicode(prevText.toUtf8()));
 }
 
-void Font::change_size_of_font(QTextEdit *text,int size){
+void Font::changeSizeOfFont(QTextEdit *text,int size){
     QTextCursor cursor(text->textCursor());
-    QString select_text = cursor.selectedText();
-    if(select_text.isEmpty()){
+    QString selectText = cursor.selectedText();
+    if(selectText.isEmpty()){
         text->selectAll();
         text->setFontPointSize(size);
     }
@@ -51,20 +53,26 @@ void Font::change_size_of_font(QTextEdit *text,int size){
     }
 }
 
-void Font::change_font(QTextEdit *text,QFont font){
+void Font::changeFont(QTextEdit *text,QFont font){
     QTextCursor cursor(text->textCursor());
-    QString select_text = cursor.selectedText();
-    if(select_text.isEmpty()){
+    QString selectText = cursor.selectedText();
+    QTextCharFormat format = cursor.charFormat();
+    if(selectText.isEmpty()){
         text->selectAll();
-        text->setFont(font);
+        format.setFont(font);
+        cursor.setCharFormat(format);
     }
     else{
         text->selectionChanged();
-        text->setFont(font);
+        format.setFont(font);
+        cursor.setCharFormat(format);
+    }
+    if(fontSize != 0){
+        text->setFontPointSize(fontSize);
     }
 }
 
-void Font::change_highlight_color(QTextEdit *text, QColor color){
+void Font::changeHighlightColor(QTextEdit *text, QColor color){
     QTextCursor cursor(text->textCursor());
     if(cursor.selectedText().isEmpty()){
         text->selectAll();

@@ -9,7 +9,7 @@ public:
     FileManager();
     QString open();
     void save(const QString &text);
-    void create_new(const QString &text);
+    void createNew(const QString &text);
     void setPath(const QString &str);
     QString filepath;
 };

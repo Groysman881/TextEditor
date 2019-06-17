@@ -7,12 +7,13 @@ class Font
 {
 public:
     Font();
-    void change_size_of_font(QTextEdit *text,int size);
-    void change_color_of_font(QTextEdit *text,QColor color);
-    void change_font(QTextEdit *text,QFont font);;
-    void change_background_color(QTextEdit *text,QColor color);
-    void change_codec(QTextEdit *text,QString codec);
-    void change_highlight_color(QTextEdit *text,QColor color);
+    int fontSize;
+    void changeSizeOfFont(QTextEdit *text,int size);
+    void changeColorOfFont(QTextEdit *text,QColor color);
+    void changeFont(QTextEdit *text,QFont font);;
+    void changeBackgroundColor(QTextEdit *text,QColor color);
+    void changeCodec(QTextEdit *text,QString codec);
+    void changeHighlightColor(QTextEdit *text,QColor color);
 };
 
 #endif // FONT_H

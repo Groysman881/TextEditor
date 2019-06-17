@@ -21,23 +21,23 @@ public:
     //Ui::MainWindow *ui;
 
 private slots:
-    void open_file();
+    void openFile();
 
-    void save_file();
+    void saveFile();
 
-    void change_size_font();
+    void changeSizeFont();
 
-    void change_color_font();
+    void changeColorFont();
 
-    void change_font(const QFont &f);
+    void changeTextFont(const QFont &f);
 
-    void change_bgcolor();
+    void changeBgcolor();
 
-    void change_codec(const QString &codec);
+    void changeCodec(const QString &codec);
 
-    void create_file();
+    void createFile();
 
-    void change_highlight();
+    void changeHighlight();
 
 private:
     Ui::MainWindow *ui;
